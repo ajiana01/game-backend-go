@@ -1,0 +1,18 @@
+{
+  "sqltools.connections": [
+    {
+      "name": "Portfolio Go - PostgreSQL",
+      "group": "Portfolio Go (local)",
+      "driver": "PostgreSQL",
+      "server": "localhost",
+      "port": 15432,
+      "database": "game",
+      "username": "game",
+      "password": "game",
+      "askForPassword": false,
+      "connectionTimeout": 15,
+      "previewLimit": 100
+    }
+  ],
+  "mdb.sendTelemetry": false
+}

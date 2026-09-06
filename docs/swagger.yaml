@@ -1,0 +1,544 @@
+basePath: /
+definitions:
+  httpapi.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  inventory.AddInput:
+    properties:
+      item_id:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  inventory.Item:
+    properties:
+      item_id:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  inventory.ListResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/inventory.Item'
+        type: array
+    type: object
+  leaderboard.Entry:
+    properties:
+      player_id:
+        type: string
+      rank:
+        type: integer
+      score:
+        type: integer
+      username:
+        type: string
+    type: object
+  leaderboard.ListResponse:
+    properties:
+      players:
+        items:
+          $ref: '#/definitions/leaderboard.Entry'
+        type: array
+    type: object
+  leaderboard.Score:
+    properties:
+      player_id:
+        type: string
+      score:
+        type: integer
+    type: object
+  player.CreateInput:
+    properties:
+      username:
+        type: string
+    type: object
+  player.Player:
+    properties:
+      created_at:
+        type: string
+      exp:
+        type: integer
+      gold:
+        type: integer
+      id:
+        type: string
+      level:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  player.UpdateInput:
+    properties:
+      username:
+        type: string
+    type: object
+  reward.GrantInput:
+    properties:
+      type:
+        allOf:
+        - $ref: '#/definitions/reward.Type'
+        enum:
+        - login
+        - battle
+        - quest
+    type: object
+  reward.GrantResult:
+    properties:
+      player:
+        $ref: '#/definitions/player.Player'
+      reward:
+        $ref: '#/definitions/reward.Reward'
+    type: object
+  reward.Item:
+    properties:
+      item_id:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  reward.Reward:
+    properties:
+      created_at:
+        type: string
+      exp:
+        type: integer
+      gold:
+        type: integer
+      id:
+        type: string
+      item:
+        $ref: '#/definitions/reward.Item'
+      player_id:
+        type: string
+      type:
+        $ref: '#/definitions/reward.Type'
+    type: object
+  reward.Type:
+    enum:
+    - login
+    - battle
+    - quest
+    type: string
+    x-enum-varnames:
+    - Login
+    - Battle
+    - Quest
+  server.StatusResponse:
+    properties:
+      status:
+        example: ok
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Modular monolith backend for player profiles, inventory, rewards, and
+    leaderboards.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Game Backend Services API
+  version: "1.0"
+paths:
+  /api/v1/leaderboard:
+    get:
+      parameters:
+      - default: 10
+        description: Maximum number of players
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/leaderboard.ListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Get the top players
+      tags:
+      - leaderboard
+  /api/v1/leaderboard/scores:
+    post:
+      consumes:
+      - application/json
+      description: Stores the score only when it is greater than the player's current
+        best score.
+      parameters:
+      - description: Player score
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/leaderboard.Score'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/leaderboard.Score'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Submit a leaderboard score
+      tags:
+      - leaderboard
+  /api/v1/players:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new player with level 1, zero EXP, and zero gold.
+      parameters:
+      - description: Player data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/player.CreateInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/player.Player'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Register a player
+      tags:
+      - players
+  /api/v1/players/{playerID}:
+    get:
+      parameters:
+      - description: Player ID
+        format: uuid
+        in: path
+        name: playerID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/player.Player'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Get a player profile
+      tags:
+      - players
+    patch:
+      consumes:
+      - application/json
+      description: Updates the player's username.
+      parameters:
+      - description: Player ID
+        format: uuid
+        in: path
+        name: playerID
+        required: true
+        type: string
+      - description: Updated player data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/player.UpdateInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/player.Player'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Update a player profile
+      tags:
+      - players
+  /api/v1/players/{playerID}/inventory:
+    get:
+      parameters:
+      - description: Player ID
+        format: uuid
+        in: path
+        name: playerID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inventory.ListResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Get a player's inventory
+      tags:
+      - inventory
+  /api/v1/players/{playerID}/inventory/items:
+    post:
+      consumes:
+      - application/json
+      description: Adds the quantity to an existing item or creates a new item.
+      parameters:
+      - description: Player ID
+        format: uuid
+        in: path
+        name: playerID
+        required: true
+        type: string
+      - description: Item data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/inventory.AddInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inventory.Item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Add an inventory item
+      tags:
+      - inventory
+  /api/v1/players/{playerID}/inventory/items/{itemID}:
+    delete:
+      description: Removes the requested quantity. The item is deleted when its quantity
+        reaches zero.
+      parameters:
+      - description: Player ID
+        format: uuid
+        in: path
+        name: playerID
+        required: true
+        type: string
+      - description: Item ID
+        in: path
+        name: itemID
+        required: true
+        type: string
+      - default: 1
+        description: Quantity to remove
+        in: query
+        minimum: 1
+        name: quantity
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Remove an inventory item
+      tags:
+      - inventory
+  /api/v1/players/{playerID}/rewards:
+    post:
+      consumes:
+      - application/json
+      description: Grants a predefined login, battle, or quest reward. Reusing the
+        same idempotency key returns the original result without duplicating its effects.
+      parameters:
+      - description: Player ID
+        format: uuid
+        in: path
+        name: playerID
+        required: true
+        type: string
+      - description: Unique request key
+        in: header
+        name: Idempotency-Key
+        required: true
+        type: string
+      - description: Reward type
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/reward.GrantInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Existing idempotent result
+          schema:
+            $ref: '#/definitions/reward.GrantResult'
+        "201":
+          description: Reward created
+          schema:
+            $ref: '#/definitions/reward.GrantResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Grant a reward
+      tags:
+      - rewards
+  /healthz:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.StatusResponse'
+      summary: Check API liveness
+      tags:
+      - system
+  /readyz:
+    get:
+      description: Checks whether PostgreSQL, MongoDB, and Redis are available.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.StatusResponse'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/httpapi.ErrorResponse'
+      summary: Check API readiness
+      tags:
+      - system
+schemes:
+- http
+- https
+swagger: "2.0"
