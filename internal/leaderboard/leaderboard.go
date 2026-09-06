@@ -4,8 +4,8 @@ import (
 	"context"
 	"strings"
 
-	"github.com/ajiana01/portfolio-go/internal/domainerr"
-	"github.com/ajiana01/portfolio-go/internal/player"
+	"github.com/ajiana01/game-backend-go/internal/domainerr"
+	"github.com/ajiana01/game-backend-go/internal/player"
 )
 
 type Score struct {

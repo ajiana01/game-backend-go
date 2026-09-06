@@ -1,4 +1,4 @@
-module github.com/ajiana01/portfolio-go
+module github.com/ajiana01/game-backend-go
 
 go 1.24.0
 

@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/ajiana01/portfolio-go/internal/domainerr"
+	"github.com/ajiana01/game-backend-go/internal/domainerr"
 )
 
 // ErrorResponse is the standard API error payload.

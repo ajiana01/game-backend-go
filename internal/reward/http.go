@@ -3,7 +3,7 @@ package reward
 import (
 	"net/http"
 
-	"github.com/ajiana01/portfolio-go/internal/httpapi"
+	"github.com/ajiana01/game-backend-go/internal/httpapi"
 )
 
 type Handler struct{ service *Service }

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/ajiana01/portfolio-go/internal/domainerr"
+	"github.com/ajiana01/game-backend-go/internal/domainerr"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"

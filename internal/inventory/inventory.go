@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ajiana01/portfolio-go/internal/domainerr"
+	"github.com/ajiana01/game-backend-go/internal/domainerr"
 )
 
 type Item struct {

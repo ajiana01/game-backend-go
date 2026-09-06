@@ -3,7 +3,7 @@ package player
 import (
 	"context"
 	"fmt"
-	"github.com/ajiana01/portfolio-go/internal/domainerr"
+	"github.com/ajiana01/game-backend-go/internal/domainerr"
 	"regexp"
 	"strings"
 	"time"

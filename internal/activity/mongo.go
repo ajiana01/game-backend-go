@@ -3,7 +3,7 @@ package activity
 import (
 	"context"
 
-	"github.com/ajiana01/portfolio-go/internal/event"
+	"github.com/ajiana01/game-backend-go/internal/event"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

@@ -10,9 +10,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ajiana01/portfolio-go/internal/activity"
-	"github.com/ajiana01/portfolio-go/internal/config"
-	"github.com/ajiana01/portfolio-go/internal/event"
+	"github.com/ajiana01/game-backend-go/internal/activity"
+	"github.com/ajiana01/game-backend-go/internal/config"
+	"github.com/ajiana01/game-backend-go/internal/event"
 	"github.com/segmentio/kafka-go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

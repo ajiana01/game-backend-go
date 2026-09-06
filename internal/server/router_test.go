@@ -9,10 +9,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ajiana01/portfolio-go/internal/inventory"
-	"github.com/ajiana01/portfolio-go/internal/leaderboard"
-	"github.com/ajiana01/portfolio-go/internal/player"
-	"github.com/ajiana01/portfolio-go/internal/reward"
+	"github.com/ajiana01/game-backend-go/internal/inventory"
+	"github.com/ajiana01/game-backend-go/internal/leaderboard"
+	"github.com/ajiana01/game-backend-go/internal/player"
+	"github.com/ajiana01/game-backend-go/internal/reward"
 )
 
 func TestSwaggerUIAndSpecificationAreServed(t *testing.T) {

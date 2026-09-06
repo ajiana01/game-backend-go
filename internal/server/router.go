@@ -6,12 +6,12 @@ import (
 	"runtime/debug"
 	"time"
 
-	_ "github.com/ajiana01/portfolio-go/docs"
-	"github.com/ajiana01/portfolio-go/internal/httpapi"
-	"github.com/ajiana01/portfolio-go/internal/inventory"
-	"github.com/ajiana01/portfolio-go/internal/leaderboard"
-	"github.com/ajiana01/portfolio-go/internal/player"
-	"github.com/ajiana01/portfolio-go/internal/reward"
+	_ "github.com/ajiana01/game-backend-go/docs"
+	"github.com/ajiana01/game-backend-go/internal/httpapi"
+	"github.com/ajiana01/game-backend-go/internal/inventory"
+	"github.com/ajiana01/game-backend-go/internal/leaderboard"
+	"github.com/ajiana01/game-backend-go/internal/player"
+	"github.com/ajiana01/game-backend-go/internal/reward"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 

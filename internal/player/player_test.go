@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ajiana01/portfolio-go/internal/domainerr"
+	"github.com/ajiana01/game-backend-go/internal/domainerr"
 )
 
 type memoryRepository struct{ players map[string]Player }

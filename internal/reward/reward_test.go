@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ajiana01/portfolio-go/internal/event"
-	"github.com/ajiana01/portfolio-go/internal/inventory"
-	"github.com/ajiana01/portfolio-go/internal/player"
+	"github.com/ajiana01/game-backend-go/internal/event"
+	"github.com/ajiana01/game-backend-go/internal/inventory"
+	"github.com/ajiana01/game-backend-go/internal/player"
 )
 
 type memoryRewards struct{ values map[string]GrantResult }

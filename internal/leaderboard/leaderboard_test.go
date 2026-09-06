@@ -5,8 +5,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/ajiana01/portfolio-go/internal/domainerr"
-	"github.com/ajiana01/portfolio-go/internal/player"
+	"github.com/ajiana01/game-backend-go/internal/domainerr"
+	"github.com/ajiana01/game-backend-go/internal/player"
 )
 
 type memoryScores map[string]int64
